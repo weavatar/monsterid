@@ -166,10 +166,8 @@ func colorizeImage(img *image.RGBA, hue, saturation float64, colorize bool) {
 			}
 
 			// Convert pixel to HSL, modify hue/saturation, convert back
-			h, s, l := rgbToHsl(float64(r)/0xFFFF, float64(g)/0xFFFF, float64(b)/0xFFFF)
-			h = hue
-			s = saturation
-			r2, g2, b2 := hslToRgb(h, s, l)
+			_, _, l := rgbToHsl(float64(r)/0xFFFF, float64(g)/0xFFFF, float64(b)/0xFFFF)
+			r2, g2, b2 := hslToRgb(hue, saturation, l)
 
 			img.Set(x, y, color.RGBA{
 				R: uint8(r2 * 255),
@@ -210,12 +208,6 @@ func rgbToHsl(r, g, b float64) (float64, float64, float64) {
 
 	if x != n {
 		d := x - n
-		s = d / (2.0 - x - n)
-		if l > 0.5 {
-			s = d / (2.0 - x - n)
-		} else {
-			s = d / (x + n)
-		}
 
 		switch x {
 		case r:
