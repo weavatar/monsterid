@@ -208,6 +208,11 @@ func rgbToHsl(r, g, b float64) (float64, float64, float64) {
 
 	if x != n {
 		d := x - n
+		if l > 0.5 {
+			s = d / (2.0 - x - n)
+		} else {
+			s = d / (x + n)
+		}
 
 		switch x {
 		case r:
